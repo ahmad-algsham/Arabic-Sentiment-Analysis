@@ -129,10 +129,8 @@ def GetFullTeet(tweet):
 
 
 # function to extract (data based on top trend) from each gulf state
-def data_trend(file_name_data_sa,
-               # file_name_data_ae, file_name_data_om,
-               # file_name_data_qa, file_name_data_bh, file_name_data_kw,
-               ):
+def data_trend(file_name_data_sa,file_name_data_ae, file_name_data_om,
+               file_name_data_qa, file_name_data_bh, file_name_data_kw,):
 
     i = 0
     # extract tweet from top trend in Saudi Arabia

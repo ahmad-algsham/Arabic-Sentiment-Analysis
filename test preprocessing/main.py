@@ -15,6 +15,7 @@ ct.data_trend(file_name_data_sa="DATA_SA", file_name_data_ae="DATA_AE", file_nam
 
 # --------------------------------------import from regexarabic---------------------------------------------------------
 
+# Function to extract data based on top trend on each gulf states
 ct.clean_ALL['clean_tweet_SA'] = df_SA['Tweets'].apply(lambda x: ra.remove(ra.harakat(ra.WordsFiltires(x))))
 ct.clean_ALL['clean_tweet_SA'].to_csv('clean_SA.csv', encoding='utf-16', sep='\t', index=False)
 print('Done')
