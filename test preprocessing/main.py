@@ -40,48 +40,3 @@ ct.clean_ALL['clean_tweet_KW'].to_csv('clean_KW.csv', encoding='utf-16', sep='\t
 print('Done')
 
 
-
-
-
-
-
-
-
-
-
-
-
-# clean_ALL['clean_tweet_SA'] = df_SA['Tweets'].apply(lambda x: ra.WordsFiltires(x))
-# print(clean_ALL['clean_tweet_SA'])
-
-# cln = ct.trend_df_qa['QA'].apply(lambda cln: ra.harakat(cln))
-# print('emty ',cln)
-#
-# cln = ct.trend_df_qa['QA'].apply(lambda cln: ra.WordsFiltires(cln))
-# print('emty ',cln)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# text = 'الان بالَعربي @شمس_انت 2و @شمس8انا وأاإ ىئ @_شمس @ - 5وبالهاششششتاق👍 ذالك هذه الىى علييي AbTihal ): #نحن_بالعربيه ' \
-#        '45ؤ #نحن2انت و ' \
-#        ' #نحن_فيك ' \
-#        'https://www.githup.com       '
