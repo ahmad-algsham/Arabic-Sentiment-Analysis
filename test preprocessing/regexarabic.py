@@ -31,6 +31,7 @@ def remove(argword):
     argword = ' '.join(re.sub(r'[@#][\w+.-]+'  # To remove @ and # 
                               r'|(\d+)|'  # To remove numbers
                               r'(https?:\/\/.*[\r\n]*)'  # To remove links
+                              r'|([A-Za-z]+)'
                               , ' ', argword).split())
 
     argword = re.compile("["u"\U0001F600-\U0001F64F"  # emoticons
