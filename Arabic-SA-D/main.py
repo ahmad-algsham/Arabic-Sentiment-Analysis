@@ -1,7 +1,14 @@
 import regexarabic as ra
 import craweltweet as ct
+import getsentiment as gs
 
-
+import os
+dirName = f'../Arabic-SA-D/files'
+if not os.path.exists(dirName):
+    # To check if
+    # - directory is created or not
+    # if not will created automatically
+    os.makedirs(dirName, exist_ok=True)
 # --------------------------------------import from craweltweet---------------------------------------------------------
 def main():
     # function to extract trends from each gulf state
@@ -43,6 +50,20 @@ def clean():
     print('Done')
 
 
+# ---------------------------------------import from getsentiment-------------------------------------------------------
+
+ct.df_SA['sentiment'] = ct.clean_ALL['clean_tweet_SA'].apply(lambda x: gs.analyze_sentiment(x))
+
+ct.df_SA['sentiment'] = ct.clean_ALL['clean_tweet_AE'].apply(lambda x: gs.analyze_sentiment(x))
+
+ct.df_SA['sentiment'] = ct.clean_ALL['clean_tweet_OM'].apply(lambda x: gs.analyze_sentiment(x))
+
+ct.df_SA['sentiment'] = ct.clean_ALL['clean_tweet_QA'].apply(lambda x: gs.analyze_sentiment(x))
+
+ct.df_SA['sentiment'] = ct.clean_ALL['clean_tweet_BH'].apply(lambda x: gs.analyze_sentiment(x))
+
+ct.df_SA['sentiment'] = ct.clean_ALL['clean_tweet_KW'].apply(lambda x: gs.analyze_sentiment(x))
+print()
 # ----------------------------------------------------------------------------------------------------------------------
 if __name__ == '__main__':
     main()

@@ -33,6 +33,7 @@ def remove(argword):
                               r'(https?:\/\/.*[\r\n]*)'  # To remove links
                               r'|([A-Za-z]+)'
                               , ' ', argword).split())
+    argword = ' '.join(re.sub(r'(\w+_\w+)', '', argword).split())
 
     argword = re.compile("["u"\U0001F600-\U0001F64F"  # emoticons
                          u"\U0001F300-\U0001F5FF"  # symbols & pictographs
