@@ -128,7 +128,7 @@ def has_spam(tweet):
     for word in spam:
         if word in tweet:
             # print('is spam')
-            tweet = 'spam'
+            tweet = 'SPAM'
             return tweet   # return tweet as spam tweet
     # print('is not spam')
     return tweet   # return original tweet

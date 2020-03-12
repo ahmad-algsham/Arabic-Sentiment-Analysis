@@ -41,7 +41,7 @@ def remove(argword):
                          u"\U00002702-\U000027B0"
                          u"\U000024C2-\U0001F251" "]+", flags=re.UNICODE).sub(r'', argword)
 
-    argword = argword.lower()  # Convert text to lowercase
+    argword = re.sub('SPAM', '', argword)
     argword = argword.translate(str.maketrans("", "", string.punctuation))  # Punctuation removal
     argword = argword.strip()  # White spaces removal
 
