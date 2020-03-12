@@ -3,12 +3,15 @@ import craweltweet as ct
 import getsentiment as gs
 
 import os
+
 dirName = f'../Arabic-SA-D/files'
 if not os.path.exists(dirName):
     # To check if
     # - directory is created or not
     # if not will created automatically
     os.makedirs(dirName, exist_ok=True)
+
+
 # --------------------------------------import from craweltweet---------------------------------------------------------
 def main():
     # function to extract trends from each gulf state
@@ -24,47 +27,65 @@ def main():
 
 # --------------------------------------import from regexarabic---------------------------------------------------------
 def clean():
-    # Function to extract data based on top trend on each gulf states on one DataFrame
-    ct.clean_ALL['clean_tweet_SA'] = ct.df_SA['Tweets'].apply(lambda x: ra.remove(ra.harakat(ra.WordsFiltires(x))))
-    ct.clean_ALL['clean_tweet_SA'].to_csv('files\clean_SA.csv', encoding='utf-16', sep='\t', index=False)
-    print('Done')
+    # Function to clean data
+    ct.clean_SA['clean_tweet_SA'] = ct.df_SA['Tweets'].apply(lambda x: ra.remove(ra.harakat(ra.WordsFiltires(x))))
+    ct.clean_SA.to_csv('files\clean_SA.csv', encoding='utf-16', sep='\t', index=False)
+    print('\nDone clean SA')
 
-    ct.clean_ALL['clean_tweet_AE'] = ct.df_AE['Tweets'].apply(lambda x: ra.remove(ra.harakat(ra.WordsFiltires(x))))
-    ct.clean_ALL['clean_tweet_AE'].to_csv('files\clean_AE.csv', encoding='utf-16', sep='\t', index=False)
-    print('Done')
+    ct.clean_AE['clean_tweet_AE'] = ct.df_AE['Tweets'].apply(lambda x: ra.remove(ra.harakat(ra.WordsFiltires(x))))
+    ct.clean_AE.to_csv('files\clean_AE.csv', encoding='utf-16', sep='\t', index=False)
+    print('Done clean AE')
 
-    ct.clean_ALL['clean_tweet_OM'] = ct.df_OM['Tweets'].apply(lambda x: ra.remove(ra.harakat(ra.WordsFiltires(x))))
-    ct.clean_ALL['clean_tweet_OM'].to_csv('files\clean_OM.csv', encoding='utf-16', sep='\t', index=False)
-    print('Done')
+    ct.clean_OM['clean_tweet_OM'] = ct.df_OM['Tweets'].apply(lambda x: ra.remove(ra.harakat(ra.WordsFiltires(x))))
+    ct.clean_OM.to_csv('files\clean_OM.csv', encoding='utf-16', sep='\t', index=False)
+    print('Done clean OM')
 
-    ct.clean_ALL['clean_tweet_QA'] = ct.df_QA['Tweets'].apply(lambda x: ra.remove(ra.harakat(ra.WordsFiltires(x))))
-    ct.clean_ALL['clean_tweet_QA'].to_csv('files\clean_QA.csv', encoding='utf-16', sep='\t', index=False)
-    print('Done')
+    ct.clean_QA['clean_tweet_QA'] = ct.df_QA['Tweets'].apply(lambda x: ra.remove(ra.harakat(ra.WordsFiltires(x))))
+    ct.clean_QA.to_csv('files\clean_QA.csv', encoding='utf-16', sep='\t', index=False)
+    print('Done clean QA')
 
-    ct.clean_ALL['clean_tweet_BH'] = ct.df_BH['Tweets'].apply(lambda x: ra.remove(ra.harakat(ra.WordsFiltires(x))))
-    ct.clean_ALL['clean_tweet_BH'].to_csv('files\clean_BH.csv', encoding='utf-16', sep='\t', index=False)
-    print('Done')
+    ct.clean_BH['clean_tweet_BH'] = ct.df_BH['Tweets'].apply(lambda x: ra.remove(ra.harakat(ra.WordsFiltires(x))))
+    ct.clean_BH.to_csv('files\clean_BH.csv', encoding='utf-16', sep='\t', index=False)
+    print('Done clean BH')
 
-    ct.clean_ALL['clean_tweet_KW'] = ct.df_KW['Tweets'].apply(lambda x: ra.remove(ra.harakat(ra.WordsFiltires(x))))
-    ct.clean_ALL['clean_tweet_KW'].to_csv('files\clean_KW.csv', encoding='utf-16', sep='\t', index=False)
-    print('Done')
+    ct.clean_KW['clean_tweet_KW'] = ct.df_KW['Tweets'].apply(lambda x: ra.remove(ra.harakat(ra.WordsFiltires(x))))
+    ct.clean_KW.to_csv('files\clean_KW.csv', encoding='utf-16', sep='\t', index=False)
+    print('Done clean KW')
+    print()
 
 
 # ---------------------------------------import from getsentiment-------------------------------------------------------
 
-ct.df_SA['sentiment'] = ct.clean_ALL['clean_tweet_SA'].apply(lambda x: gs.analyze_sentiment(x))
+def sentiment_Analyze():
+    # Function to get sentiment data
+    ct.clean_SA['sentiment_SA'] = ct.clean_SA['clean_tweet_SA'].apply(lambda x: gs.analyze_sentiment(x))
+    ct.clean_SA.to_csv('files\clean_SA.csv', encoding='utf-16', sep='\t', index=False)
+    print('Done classify SA')
 
-ct.df_SA['sentiment'] = ct.clean_ALL['clean_tweet_AE'].apply(lambda x: gs.analyze_sentiment(x))
+    ct.clean_AE['sentiment_AE'] = ct.clean_AE['clean_tweet_AE'].apply(lambda x: gs.analyze_sentiment(x))
+    ct.clean_AE.to_csv('files\clean_AE.csv', encoding='utf-16', sep='\t', index=False)
+    print('Done classify AE')
 
-ct.df_SA['sentiment'] = ct.clean_ALL['clean_tweet_OM'].apply(lambda x: gs.analyze_sentiment(x))
+    ct.clean_OM['sentiment_OM'] = ct.clean_OM['clean_tweet_OM'].apply(lambda x: gs.analyze_sentiment(x))
+    ct.clean_OM.to_csv('files\clean_OM.csv', encoding='utf-16', sep='\t', index=False)
+    print('Done classify OM')
 
-ct.df_SA['sentiment'] = ct.clean_ALL['clean_tweet_QA'].apply(lambda x: gs.analyze_sentiment(x))
+    ct.clean_QA['sentiment_QA'] = ct.clean_QA['clean_tweet_QA'].apply(lambda x: gs.analyze_sentiment(x))
+    ct.clean_QA.to_csv('files\clean_QA.csv', encoding='utf-16', sep='\t', index=False)
+    print('Done classify QA')
 
-ct.df_SA['sentiment'] = ct.clean_ALL['clean_tweet_BH'].apply(lambda x: gs.analyze_sentiment(x))
+    ct.clean_BH['sentiment_BH'] = ct.clean_BH['clean_tweet_BH'].apply(lambda x: gs.analyze_sentiment(x))
+    ct.clean_BH.to_csv('files\clean_BH.csv', encoding='utf-16', sep='\t', index=False)
+    print('Done classify BH')
 
-ct.df_SA['sentiment'] = ct.clean_ALL['clean_tweet_KW'].apply(lambda x: gs.analyze_sentiment(x))
-print()
+    ct.clean_KW['sentiment_KW'] = ct.clean_KW['clean_tweet_KW'].apply(lambda x: gs.analyze_sentiment(x))
+    ct.clean_KW.to_csv('files\clean_KW.csv', encoding='utf-16', sep='\t', index=False)
+    print("Done classify KW")
+    print('Done analyze')
+
+
 # ----------------------------------------------------------------------------------------------------------------------
 if __name__ == '__main__':
     main()
     clean()
+    sentiment_Analyze()
