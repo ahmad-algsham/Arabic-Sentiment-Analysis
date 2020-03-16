@@ -41,7 +41,7 @@ clean_QA = pd.DataFrame()
 clean_BH = pd.DataFrame()
 clean_KW = pd.DataFrame()
 
-
+clean_ALL = pd.DataFrame()
 # function to extract trends from each gulf state
 def trending(file_name_trend_SA, file_name_trend_AE, file_name_trend_OM,
              file_name_trend_QA, file_name_trend_BH, file_name_trend_KW):
@@ -167,7 +167,7 @@ def data_trend(file_name_data_sa, file_name_data_ae, file_name_data_om,
         df_SA.loc[i, 'tweet_data'] = tweet.created_at
         df_SA.to_csv('{}.csv'.format(file_name_data_sa), encoding='utf-16', sep='\t', index=False)
         i += 1
-        if i == 30:
+        if i == 20:
             break
         else:
             pass
@@ -189,7 +189,7 @@ def data_trend(file_name_data_sa, file_name_data_ae, file_name_data_om,
         df_AE.loc[i, 'tweet_data'] = tweet.created_at
         df_AE.to_csv('{}.csv'.format(file_name_data_ae), encoding='utf-16', sep='\t', index=False)
         i += 1
-        if i == 30:
+        if i == 20:
             break
         else:
             pass
@@ -211,7 +211,7 @@ def data_trend(file_name_data_sa, file_name_data_ae, file_name_data_om,
         df_OM.loc[i, 'tweet_data'] = tweet.created_at
         df_OM.to_csv('{}.csv'.format(file_name_data_om), encoding='utf-16', sep='\t', index=False)
         i += 1
-        if i == 30:
+        if i == 20:
             break
         else:
             pass
@@ -233,7 +233,7 @@ def data_trend(file_name_data_sa, file_name_data_ae, file_name_data_om,
         df_QA.loc[i, 'tweet_data'] = tweet.created_at
         df_QA.to_csv('{}.csv'.format(file_name_data_qa), encoding='utf-16', sep='\t', index=False)
         i += 1
-        if i == 30:
+        if i == 20:
             break
         else:
             pass
@@ -255,7 +255,7 @@ def data_trend(file_name_data_sa, file_name_data_ae, file_name_data_om,
         df_BH.loc[i, 'tweet_data'] = tweet.created_at
         df_BH.to_csv('{}.csv'.format(file_name_data_bh), encoding='utf-16', sep='\t', index=False)
         i += 1
-        if i == 30:
+        if i == 20:
             break
         else:
             pass
@@ -277,7 +277,7 @@ def data_trend(file_name_data_sa, file_name_data_ae, file_name_data_om,
         df_KW.loc[i, 'tweet_data'] = tweet.created_at
         df_KW.to_csv('{}.csv'.format(file_name_data_kw), encoding='utf-16', sep='\t', index=False)
         i += 1
-        if i == 30:
+        if i == 20:
             break
         else:
             pass
