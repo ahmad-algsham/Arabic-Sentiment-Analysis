@@ -108,7 +108,7 @@ if __name__ == "__main__":
     api = twitter_client.get_twitter_client_api()
 
     tweets = api.user_timeline(screan_name="News_Ejazah", count=10)
-
+    print()
 
 
 
