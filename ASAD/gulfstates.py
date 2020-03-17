@@ -24,7 +24,7 @@ def get_saudi_arabia(result_SA):
         df_SA.loc[i, 'Tweets'] = ff.GetFullTeet(tweet)
         df_SA.to_csv('{}.csv'.format('DD_SA'), encoding='utf-16', sep='\t', index=False)
         i += 1
-        if i == 20:
+        if i == 2000:
             break
         else:
             pass

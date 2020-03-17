@@ -4,7 +4,7 @@ from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
 from tweepy import Stream
 
-from textblob import TextBlob
+from textblob_ar import TextBlob
 
 import kays_twitter
 import regexarabic as ra
@@ -22,7 +22,7 @@ class TwitterClient():
         self.auth = TwitterAuthenticator().authenticate_twitter_app()
         self.twitter_client = API(self.auth)
 
-        self.twitter_user = twitter_user
+        # self.twitter_user = twitter_user
 
     def get_twitter_client_api(self):
         return self.twitter_client
@@ -37,51 +37,6 @@ class TwitterAuthenticator():
         return auth
 
 
-# # # # TWITTER STREAMER # # # #
-class TwitterStreamer():
-    """
-    Class for streaming and processing live tweets.
-    """
-
-    def __init__(self):
-        self.twitter_autenticator = TwitterAuthenticator()
-
-    def stream_tweets(self, fetched_tweets_filename, hash_tag_list):
-        # This handles Twitter authetification and the connection to Twitter Streaming API
-        listener = TwitterListener(fetched_tweets_filename)
-        auth = self.twitter_autenticator.authenticate_twitter_app()
-        stream = Stream(auth, listener)
-
-        # This line filter Twitter Streams to capture data by the keywords:
-        stream.filter(track=hash_tag_list)
-
-
-# # # # TWITTER STREAM LISTENER # # # #
-class TwitterListener(StreamListener):
-    """
-    This is a basic listener that just prints received tweets to stdout.
-    """
-
-    def __init__(self, fetched_tweets_filename):
-        self.fetched_tweets_filename = fetched_tweets_filename
-
-    def on_data(self, data):
-        try:
-            print(data)
-            with open(self.fetched_tweets_filename, 'a') as tf:
-                tf.write(data)
-            return True
-        except BaseException as e:
-            print("Error on_data %s" % str(e))
-        return True
-
-    def on_error(self, status):
-        if status == 420:
-            # Returning False on_data method in case rate limit occurs.
-            return False
-        print(status)
-
-
 class TweetAnalyzer():
     """
     Functionality for analyzing and categorizing content from tweets.
@@ -91,6 +46,7 @@ class TweetAnalyzer():
         argword = ra.remove(tweet)
         argword = ra.harakat(argword)
         argword = ra.WordsFiltires(argword)
+        # print(argword)
         return argword
         # return ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", tweet).split())
 
@@ -98,11 +54,11 @@ class TweetAnalyzer():
         analysis = TextBlob(self.clean_tweet(tweet))
 
         if analysis.sentiment.polarity > 0:
-            return 1
+            return 'positive'
         elif analysis.sentiment.polarity == 0:
-            return 0
+            return 'natural'
         else:
-            return -1
+            return 'negative'
 
     def tweets_to_data_frame(self, result_SA):
         df_SA = gs.get_saudi_arabia(result_SA)
@@ -126,7 +82,7 @@ if __name__ == '__main__':
     print(df_SA.head(10))
 
 
-
+    # TODO learn about matplotlib
 
 
     # twitter_client = TwitterClient()
