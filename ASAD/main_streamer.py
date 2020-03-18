@@ -4,7 +4,7 @@ from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
 from tweepy import Stream
 
-from textblob_ar import TextBlob
+from textblob import TextBlob
 
 import kays_twitter
 import regexarabic as ra
@@ -15,6 +15,7 @@ import numpy as np
 import pandas as pd
 import re
 import time
+
 
 # # # # TWITTER CLIENT # # # #
 class TwitterClient():
@@ -110,7 +111,7 @@ if __name__ == '__main__':
 
     # extract tweets from top trend in Saudi Arabia
     df_SA = twitter_client.get_saudi_arabia()
-    df_SA['sentiment'] = df_SA['Tweets'].apply(lambda x: tweet_analyzer.analyze_sentiment(x))  # TODO filter()
+    df_SA['sentiment'] = df_SA['Tweets'].apply(lambda x: tweet_analyzer.analyze_sentiment(x))
     df_SA.to_csv('data_SA.csv', encoding='utf-16', sep='\t', index=False)
     time.sleep(10)
     # extract tweets from top trend in Kuwait
@@ -144,15 +145,15 @@ if __name__ == '__main__':
 
     print(df_SA.head(5))
 
-    print(df_QA.head(5))
-
-    print(df_OM.head(5))
-
-    print(df_AE.head(5))
-
-    print(df_BH.head(5))
-
-    print(df_KW.head(5))
+    # print(df_QA.head(5))
+    #
+    # print(df_OM.head(5))
+    #
+    # print(df_AE.head(5))
+    #
+    # print(df_BH.head(5))
+    #
+    # print(df_KW.head(5))
 
 
     # TODO learn about matplotlib
