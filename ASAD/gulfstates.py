@@ -37,7 +37,7 @@ def get_data_to_frame(result_location, file_name_trend):
         print(i, end='\r')
         df.loc[i, 'Tweets'] = ff.GetFullTeet(tweet)
         i += 1
-        if i == 30:
+        if i == 2000:
             break
         else:
             pass
