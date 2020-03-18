@@ -4,7 +4,7 @@ from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
 from tweepy import Stream
 
-from textblob_ar import TextBlob
+from textblob import TextBlob
 
 import kays_twitter
 import regexarabic as ra
@@ -26,6 +26,48 @@ class TwitterClient():
 
     def get_twitter_client_api(self):
         return self.twitter_client
+
+    def get_saudi_arabia(self):
+        result_SA = api.trends_place(23424938)
+        file_SA = 'TRENDS_SA'
+        df_SA = gs.get_data_to_frame(result_SA, file_SA)
+
+        return df_SA
+
+    def get_kuwait(self):
+        result_KW = api.trends_place(23424870)
+        file_KW = 'TRENDS_KW'
+        df_KW = gs.get_data_to_frame(result_KW, file_KW)
+
+        return df_KW
+
+    def get_bahrain(self):
+        result_BH = api.trends_place(23424753)
+        file_BH = 'TRENDS_BH'
+        df_BH = gs.get_data_to_frame(result_BH, file_BH)
+
+        return df_BH
+
+    def get_qatar(self):
+        result_QA = api.trends_place(23424930)
+        file_QA = 'TRENDS_QA'
+        df_QA = gs.get_data_to_frame(result_QA, file_QA)
+
+        return df_QA
+
+    def get_united_arab_emirates(self):
+        result_AE = api.trends_place(23424738)
+        file_AE = 'TRENDS_AE'
+        df_AE = gs.get_data_to_frame(result_AE, file_AE)
+
+        return df_AE
+
+    def get_oman(self):
+        result_OM = api.trends_place(23424898)
+        file_OM = 'TRENDS_OM'
+        df_OM = gs.get_data_to_frame(result_OM, file_OM)
+
+        return df_OM
 
 
 # # # # TWITTER AUTHENTICATER # # # #
@@ -60,30 +102,58 @@ class TweetAnalyzer():
         else:
             return 'negative'
 
-    def tweets_to_data_frame(self, result_SA):
-        df_SA = gs.get_saudi_arabia(result_SA)
-
-        return df_SA
-
 
 if __name__ == '__main__':
-
     twitter_client = TwitterClient()
     tweet_analyzer = TweetAnalyzer()
     api = twitter_client.get_twitter_client_api()
 
-    result_SA = api.trends_place(23424938)
-
-    df_SA = tweet_analyzer.tweets_to_data_frame(result_SA)
-    df_SA['sentiment'] = df_SA['Tweets'].apply(lambda x: tweet_analyzer.analyze_sentiment(x))
+    # extract tweets from top trend in Saudi Arabia
+    df_SA = twitter_client.get_saudi_arabia()
+    df_SA['sentiment'] = df_SA['Tweets'].apply(lambda x: tweet_analyzer.analyze_sentiment(x))  # TODO filter()
     df_SA.to_csv('data_SA.csv', encoding='utf-16', sep='\t', index=False)
 
+    # extract tweets from top trend in Kuwait
+    df_KW = twitter_client.get_kuwait()
+    df_KW['sentiment'] = df_KW['Tweets'].apply(lambda x: tweet_analyzer.analyze_sentiment(x))
+    df_KW.to_csv('data_KW.csv', encoding='utf-16', sep='\t', index=False)
 
-    print(df_SA.head(10))
+    # extract tweets from top trend in Bahrain
+    df_BH = twitter_client.get_bahrain()
+    df_BH['sentiment'] = df_BH['Tweets'].apply(lambda x: tweet_analyzer.analyze_sentiment(x))
+    df_BH.to_csv('data_BH.csv', encoding='utf-16', sep='\t', index=False)
+
+    # extract tweets from top trend in Qatar
+    df_QA = twitter_client.get_qatar()
+    df_QA['sentiment'] = df_QA['Tweets'].apply(lambda x: tweet_analyzer.analyze_sentiment(x))
+    df_QA.to_csv('data_QA.csv', encoding='utf-16', sep='\t', index=False)
+
+    # extract tweets from top trend in United Arab Emirates
+    df_AE = twitter_client.get_united_arab_emirates()
+    df_AE['sentiment'] = df_AE['Tweets'].apply(lambda x: tweet_analyzer.analyze_sentiment(x))
+    df_AE.to_csv('data_AE.csv', encoding='utf-16', sep='\t', index=False)
+
+    # extract tweets from top trend in Oman
+    df_OM = twitter_client.get_oman()
+    df_OM['sentiment'] = df_OM['Tweets'].apply(lambda x: tweet_analyzer.analyze_sentiment(x))
+    df_OM.to_csv('data_OM.csv', encoding='utf-16', sep='\t', index=False)
+
+
+
+
+
+    print(df_SA.head(5))
+
+    print(df_QA.head(5))
+
+    print(df_OM.head(5))
+
+    print(df_AE.head(5))
+
+    print(df_BH.head(5))
+
+    print(df_KW.head(5))
 
 
     # TODO learn about matplotlib
 
-
-    # twitter_client = TwitterClient()
-    # print(twitter_client.get_user_timeline_tweets(1, result_SA))
