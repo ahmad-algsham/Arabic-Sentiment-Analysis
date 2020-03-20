@@ -41,7 +41,7 @@ def remove(argword):
                          u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
                          u"\U00002702-\U000027B0"
                          u"\U000024C2-\U0001F251" "]+", flags=re.UNICODE).sub(r'', argword)
-    argword = ' '.join(re.sub(r'(?<![\w\-])\w(?![\w\-])', '', argword).split())
+    argword = ' '.join(re.sub(r'(?<![\w\-])\w(?![\w\-])', '', argword).split())  # delete any single char
 
     # argword = re.sub('SPAM', '', argword)
     argword = argword.translate(str.maketrans("", "", string.punctuation))  # Punctuation removal
@@ -94,5 +94,5 @@ def WordsFiltires(tokenstem):
     return WordsFiltires
 
 
-# text = "اححححب خالد &ب تت الس 90ة ب # #نات بغت_تلنت   "
+# text = "اححححب خالد &ب تت الس 90ة ب🤷🏻‍♀️​  # #نات بغت_تلنت   "
 # print(harakat(remove(text)))
