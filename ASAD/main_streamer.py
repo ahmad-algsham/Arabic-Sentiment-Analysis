@@ -95,7 +95,7 @@ class TweetAnalyzer():
 
     def analyze_sentiment(self, tweet):
         analysis = TextBlob(self.clean_tweet(tweet))
-
+        time.sleep(0.4)
         if analysis.sentiment.polarity > 0:
             return 'positive'
         elif analysis.sentiment.polarity == 0:
