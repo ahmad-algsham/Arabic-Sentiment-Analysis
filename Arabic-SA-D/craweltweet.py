@@ -34,9 +34,14 @@ result_BH = api.trends_place(23424753)
 result_KW = api.trends_place(23424870)
 
 # create empty dataFrame to save all clean data gulf state in single DataFrame
+clean_SA = pd.DataFrame()
+clean_AE = pd.DataFrame()
+clean_OM = pd.DataFrame()
+clean_QA = pd.DataFrame()
+clean_BH = pd.DataFrame()
+clean_KW = pd.DataFrame()
+
 clean_ALL = pd.DataFrame()
-
-
 # function to extract trends from each gulf state
 def trending(file_name_trend_SA, file_name_trend_AE, file_name_trend_OM,
              file_name_trend_QA, file_name_trend_BH, file_name_trend_KW):
@@ -56,7 +61,7 @@ def trending(file_name_trend_SA, file_name_trend_AE, file_name_trend_OM,
             pass
 
     # trend from United Arab Emirates
-    print("trend in United Arab Emirates: ")
+    print("Trend in United Arab Emirates: ")
     for trend in result_AE[0]["trends"][:5]:
         print("\t", trend["name"])
         print(i, end='\r')
@@ -69,7 +74,7 @@ def trending(file_name_trend_SA, file_name_trend_AE, file_name_trend_OM,
             pass
 
     # trend from Oman
-    print("trend in Oman: ")
+    print("Trend in Oman: ")
     for trend in result_OM[0]["trends"][:5]:
         print("\t", trend["name"])
         print(i, end='\r')
@@ -82,7 +87,7 @@ def trending(file_name_trend_SA, file_name_trend_AE, file_name_trend_OM,
             pass
 
     # trend from Qatar
-    print("trend in Qatar: ")
+    print("Trend in Qatar: ")
     for trend in result_QA[0]["trends"][:5]:
         print("\t", trend["name"])
         print(i, end='\r')
@@ -95,7 +100,7 @@ def trending(file_name_trend_SA, file_name_trend_AE, file_name_trend_OM,
             pass
 
     # trend from Bahrain
-    print("trend in Bahrain: ")
+    print("Trend in Bahrain: ")
     for trend in result_BH[0]["trends"][:5]:
         print("\t", trend["name"])
         print(i, end='\r')
@@ -108,7 +113,7 @@ def trending(file_name_trend_SA, file_name_trend_AE, file_name_trend_OM,
             pass
 
     # trend from Kuwait
-    print("trend in Kuwait: ")
+    print("Trend in Kuwait: ")
     for trend in result_KW[0]["trends"][:5]:
         print("\t", trend["name"])
         print(i, end='\r')
@@ -121,17 +126,17 @@ def trending(file_name_trend_SA, file_name_trend_AE, file_name_trend_OM,
             pass
 
 # spam function, to see if is it spam return spam otherwise return tweet
-spam = open('spam_lexicon.txt', encoding='utf-8').read().split('\n')
-spam = [word for word in spam if word.strip()]
-
-def has_spam(tweet):
-    for word in spam:
-        if word in tweet:
-            # print('is spam')
-            tweet = 'spam'
-            return tweet   # return tweet as spam tweet
-    # print('is not spam')
-    return tweet   # return original tweet
+# spam = open('spam_lexicon.txt', encoding='utf-8').read().split('\n')
+# spam = [word for word in spam if word.strip()]
+#
+# def has_spam(tweet):
+#     for word in spam:
+#         if word in tweet:
+#             # print('is spam')
+#             tweet = 'SPAM'
+#             return tweet   # return tweet as spam tweet
+#     # print('is not spam')
+#     return tweet   # return original tweet
 
 
 # to get full_text from tweet or retweet
@@ -151,7 +156,8 @@ def data_trend(file_name_data_sa, file_name_data_ae, file_name_data_om,
     print("Top trend is in SA: ", data)
     for tweet in tweepy.Cursor(api.search, q=data, count=100, lang='ar', tweet_mode='extended').items():
         print(i, end='\r')
-        df_SA.loc[i, 'Tweets'] = has_spam(GetFullTeet(tweet))
+        # df_SA.loc[i, 'Tweets'] = has_spam(GetFullTeet(tweet))
+        df_SA.loc[i, 'Tweets'] = GetFullTeet(tweet)
         df_SA.loc[i, 'User'] = tweet.user.name
         df_SA.loc[i, 'User_statuses_count'] = tweet.user.statuses_count
         df_SA.loc[i, 'User_followers'] = tweet.user.followers_count
@@ -161,7 +167,7 @@ def data_trend(file_name_data_sa, file_name_data_ae, file_name_data_om,
         df_SA.loc[i, 'tweet_data'] = tweet.created_at
         df_SA.to_csv('{}.csv'.format(file_name_data_sa), encoding='utf-16', sep='\t', index=False)
         i += 1
-        if i == 10:
+        if i == 20:
             break
         else:
             pass
@@ -172,7 +178,8 @@ def data_trend(file_name_data_sa, file_name_data_ae, file_name_data_om,
     print("Top trend is in AE: ", data)
     for tweet in tweepy.Cursor(api.search, q=data, count=100, lang='ar', tweet_mode='extended').items():
         print(i, end='\r')
-        df_AE.loc[i, 'Tweets'] = has_spam(GetFullTeet(tweet))
+        # df_AE.loc[i, 'Tweets'] = has_spam(GetFullTeet(tweet))
+        df_AE.loc[i, 'Tweets'] = GetFullTeet(tweet)
         df_AE.loc[i, 'User'] = tweet.user.name
         df_AE.loc[i, 'User_statuses_count'] = tweet.user.statuses_count
         df_AE.loc[i, 'User_followers'] = tweet.user.followers_count
@@ -182,7 +189,7 @@ def data_trend(file_name_data_sa, file_name_data_ae, file_name_data_om,
         df_AE.loc[i, 'tweet_data'] = tweet.created_at
         df_AE.to_csv('{}.csv'.format(file_name_data_ae), encoding='utf-16', sep='\t', index=False)
         i += 1
-        if i == 10:
+        if i == 20:
             break
         else:
             pass
@@ -193,7 +200,8 @@ def data_trend(file_name_data_sa, file_name_data_ae, file_name_data_om,
     print("Top trend is in OM: ", data)
     for tweet in tweepy.Cursor(api.search, q=data, count=100, lang='ar', tweet_mode='extended').items():
         print(i, end='\r')
-        df_OM.loc[i, 'Tweets'] = has_spam(GetFullTeet(tweet))
+        # df_OM.loc[i, 'Tweets'] = has_spam(GetFullTeet(tweet))
+        df_OM.loc[i, 'Tweets'] = GetFullTeet(tweet)
         df_OM.loc[i, 'User'] = tweet.user.name
         df_OM.loc[i, 'User_statuses_count'] = tweet.user.statuses_count
         df_OM.loc[i, 'User_followers'] = tweet.user.followers_count
@@ -203,7 +211,7 @@ def data_trend(file_name_data_sa, file_name_data_ae, file_name_data_om,
         df_OM.loc[i, 'tweet_data'] = tweet.created_at
         df_OM.to_csv('{}.csv'.format(file_name_data_om), encoding='utf-16', sep='\t', index=False)
         i += 1
-        if i == 10:
+        if i == 20:
             break
         else:
             pass
@@ -214,7 +222,8 @@ def data_trend(file_name_data_sa, file_name_data_ae, file_name_data_om,
     print("Top trend is in QA: ", data)
     for tweet in tweepy.Cursor(api.search, q=data, count=100, lang='ar', tweet_mode='extended').items():
         print(i, end='\r')
-        df_QA.loc[i, 'Tweets'] = has_spam(GetFullTeet(tweet))
+        # df_QA.loc[i, 'Tweets'] = has_spam(GetFullTeet(tweet))
+        df_QA.loc[i, 'Tweets'] = GetFullTeet(tweet)
         df_QA.loc[i, 'User'] = tweet.user.name
         df_QA.loc[i, 'User_statuses_count'] = tweet.user.statuses_count
         df_QA.loc[i, 'User_followers'] = tweet.user.followers_count
@@ -224,7 +233,7 @@ def data_trend(file_name_data_sa, file_name_data_ae, file_name_data_om,
         df_QA.loc[i, 'tweet_data'] = tweet.created_at
         df_QA.to_csv('{}.csv'.format(file_name_data_qa), encoding='utf-16', sep='\t', index=False)
         i += 1
-        if i == 10:
+        if i == 20:
             break
         else:
             pass
@@ -235,7 +244,8 @@ def data_trend(file_name_data_sa, file_name_data_ae, file_name_data_om,
     print("Top trend is in BH: ", data)
     for tweet in tweepy.Cursor(api.search, q=data, count=100, lang='ar', tweet_mode='extended').items():
         print(i, end='\r')
-        df_BH.loc[i, 'Tweets'] = has_spam(GetFullTeet(tweet))
+        # df_BH.loc[i, 'Tweets'] = has_spam(GetFullTeet(tweet))
+        df_BH.loc[i, 'Tweets'] = GetFullTeet(tweet)
         df_BH.loc[i, 'User'] = tweet.user.name
         df_BH.loc[i, 'User_statuses_count'] = tweet.user.statuses_count
         df_BH.loc[i, 'User_followers'] = tweet.user.followers_count
@@ -245,7 +255,7 @@ def data_trend(file_name_data_sa, file_name_data_ae, file_name_data_om,
         df_BH.loc[i, 'tweet_data'] = tweet.created_at
         df_BH.to_csv('{}.csv'.format(file_name_data_bh), encoding='utf-16', sep='\t', index=False)
         i += 1
-        if i == 10:
+        if i == 20:
             break
         else:
             pass
@@ -256,7 +266,8 @@ def data_trend(file_name_data_sa, file_name_data_ae, file_name_data_om,
     print("Top trend is in KW: ", data)
     for tweet in tweepy.Cursor(api.search, q=data, count=100, lang='ar', tweet_mode='extended').items():
         print(i, end='\r')
-        df_KW.loc[i, 'Tweets'] = has_spam(GetFullTeet(tweet))
+        # df_KW.loc[i, 'Tweets'] = has_spam(GetFullTeet(tweet))
+        df_KW.loc[i, 'Tweets'] = GetFullTeet(tweet)
         df_KW.loc[i, 'User'] = tweet.user.name
         df_KW.loc[i, 'User_statuses_count'] = tweet.user.statuses_count
         df_KW.loc[i, 'User_followers'] = tweet.user.followers_count
@@ -266,7 +277,7 @@ def data_trend(file_name_data_sa, file_name_data_ae, file_name_data_om,
         df_KW.loc[i, 'tweet_data'] = tweet.created_at
         df_KW.to_csv('{}.csv'.format(file_name_data_kw), encoding='utf-16', sep='\t', index=False)
         i += 1
-        if i == 10:
+        if i == 20:
             break
         else:
             pass
