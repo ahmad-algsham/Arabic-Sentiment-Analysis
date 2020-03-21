@@ -37,7 +37,7 @@ def get_data_to_frame(result_location, file_name_trend):
         print(i, end='\r')
         df.loc[i, 'Tweets'] = ff.has_spam(ff.GetFullTeet(tweet))
         i += 1
-        if i == 360:   # to avoid rate limit we set at 360 where is (280 * 360 = 100,800 character)
+        if i == 500:   # to avoid rate limit we set at 360 where is (280 * 360 = 100,800 character)
             break
         else:
             pass

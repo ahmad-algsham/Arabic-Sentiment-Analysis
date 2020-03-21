@@ -94,14 +94,20 @@ class TweetAnalyzer():
         # return ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", tweet).split())
 
     def analyze_sentiment(self, tweet):
-        analysis = TextBlob(self.clean_tweet(tweet))
-        time.sleep(0.4)
-        if analysis.sentiment.polarity > 0:
-            return 'positive'
-        elif analysis.sentiment.polarity == 0:
-            return 'natural'
-        else:
-            return 'negative'
+
+        try:
+            analysis = TextBlob(self.clean_tweet(tweet))
+            time.sleep(0.2)
+            if analysis.sentiment.polarity > 0:
+                return 'positive'
+            elif analysis.sentiment.polarity == 0:
+                return 'natural'
+            else:
+                return 'negative'
+
+        except BaseException as e:
+            print("Error on_data %s" % str(e))
+        return True
 
 
 if __name__ == '__main__':
@@ -113,36 +119,36 @@ if __name__ == '__main__':
     df_SA = twitter_client.get_saudi_arabia()
     df_SA['sentiment'] = df_SA['Tweets'].apply(lambda x: tweet_analyzer.analyze_sentiment(x))
     df_SA.to_csv('data_SA.csv', encoding='utf-16', sep='\t', index=False)
-    time.sleep(100)   # Google Translate API also has a default limit  100,000 characters per 100 second.
-
-    # extract tweets from top trend in Kuwait
-    df_KW = twitter_client.get_kuwait()
-    df_KW['sentiment'] = df_KW['Tweets'].apply(lambda x: tweet_analyzer.analyze_sentiment(x))
-    df_KW.to_csv('data_KW.csv', encoding='utf-16', sep='\t', index=False)
-    time.sleep(100)    # Google Translate API also has a default limit  100,000 characters per 100 second.
-
-    # extract tweets from top trend in Bahrain
-    df_BH = twitter_client.get_bahrain()
-    df_BH['sentiment'] = df_BH['Tweets'].apply(lambda x: tweet_analyzer.analyze_sentiment(x))
-    df_BH.to_csv('data_BH.csv', encoding='utf-16', sep='\t', index=False)
-    time.sleep(100)   # Google Translate API also has a default limit  100,000 characters per 100 second.
-
-    # extract tweets from top trend in Qatar
-    df_QA = twitter_client.get_qatar()
-    df_QA['sentiment'] = df_QA['Tweets'].apply(lambda x: tweet_analyzer.analyze_sentiment(x))
-    df_QA.to_csv('data_QA.csv', encoding='utf-16', sep='\t', index=False)
-    time.sleep(100)   # Google Translate API also has a default limit  100,000 characters per 100 second.
-
-    # extract tweets from top trend in United Arab Emirates
-    df_AE = twitter_client.get_united_arab_emirates()
-    df_AE['sentiment'] = df_AE['Tweets'].apply(lambda x: tweet_analyzer.analyze_sentiment(x))
-    df_AE.to_csv('data_AE.csv', encoding='utf-16', sep='\t', index=False)
-    time.sleep(100)   # Google Translate API also has a default limit  100,000 characters per 100 second.
-
-    # extract tweets from top trend in Oman
-    df_OM = twitter_client.get_oman()
-    df_OM['sentiment'] = df_OM['Tweets'].apply(lambda x: tweet_analyzer.analyze_sentiment(x))
-    df_OM.to_csv('data_OM.csv', encoding='utf-16', sep='\t', index=False)
+    # time.sleep(100)   # Google Translate API also has a default limit  100,000 characters per 100 second.
+    #
+    # # extract tweets from top trend in Kuwait
+    # df_KW = twitter_client.get_kuwait()
+    # df_KW['sentiment'] = df_KW['Tweets'].apply(lambda x: tweet_analyzer.analyze_sentiment(x))
+    # df_KW.to_csv('data_KW.csv', encoding='utf-16', sep='\t', index=False)
+    # time.sleep(100)    # Google Translate API also has a default limit  100,000 characters per 100 second.
+    #
+    # # extract tweets from top trend in Bahrain
+    # df_BH = twitter_client.get_bahrain()
+    # df_BH['sentiment'] = df_BH['Tweets'].apply(lambda x: tweet_analyzer.analyze_sentiment(x))
+    # df_BH.to_csv('data_BH.csv', encoding='utf-16', sep='\t', index=False)
+    # time.sleep(100)   # Google Translate API also has a default limit  100,000 characters per 100 second.
+    #
+    # # extract tweets from top trend in Qatar
+    # df_QA = twitter_client.get_qatar()
+    # df_QA['sentiment'] = df_QA['Tweets'].apply(lambda x: tweet_analyzer.analyze_sentiment(x))
+    # df_QA.to_csv('data_QA.csv', encoding='utf-16', sep='\t', index=False)
+    # time.sleep(100)   # Google Translate API also has a default limit  100,000 characters per 100 second.
+    #
+    # # extract tweets from top trend in United Arab Emirates
+    # df_AE = twitter_client.get_united_arab_emirates()
+    # df_AE['sentiment'] = df_AE['Tweets'].apply(lambda x: tweet_analyzer.analyze_sentiment(x))
+    # df_AE.to_csv('data_AE.csv', encoding='utf-16', sep='\t', index=False)
+    # time.sleep(100)   # Google Translate API also has a default limit  100,000 characters per 100 second.
+    #
+    # # extract tweets from top trend in Oman
+    # df_OM = twitter_client.get_oman()
+    # df_OM['sentiment'] = df_OM['Tweets'].apply(lambda x: tweet_analyzer.analyze_sentiment(x))
+    # df_OM.to_csv('data_OM.csv', encoding='utf-16', sep='\t', index=False)
 
     # Google Translate API also has a default limit  2 million characters per day.
 
@@ -150,15 +156,15 @@ if __name__ == '__main__':
 
     print('SA', df_SA.head(5))
 
-    print('QA', df_QA.head(5))
-
-    print('OM', df_OM.head(5))
-
-    print('AE', df_AE.head(5))
-
-    print('BH', df_BH.head(5))
-
-    print('KW', df_KW.head(5))
+    # print('QA', df_QA.head(5))
+    #
+    # print('OM', df_OM.head(5))
+    #
+    # print('AE', df_AE.head(5))
+    #
+    # print('BH', df_BH.head(5))
+    #
+    # print('KW', df_KW.head(5))
 
 
     # TODO learn about matplotlib
