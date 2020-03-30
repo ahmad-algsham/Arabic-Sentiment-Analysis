@@ -18,11 +18,11 @@ def remove(argword):
     """
     This function is to remove
     1- (@)mention and (#)hashtag
-    2- links
-    3- convert to lowercase
-    4- Punctuation
-    5- White spaces
-    6- consecutive duplicate
+    2- digits and links
+    3- emoji
+    4- non ararbic words
+    5- Punctuation
+    6- White spaces
 
     :param argword:
     :return:
@@ -35,15 +35,13 @@ def remove(argword):
                               , ' ', argword).split())
     argword = ' '.join(re.sub(r'(\w+_\w+)', '', argword).split())
 
-    argword = re.compile("["u"\U0001F600-\U0001F64F"  # emoticons
-                         u"\U0001F300-\U0001F5FF"  # symbols & pictographs
-                         u"\U0001F680-\U0001F6FF"  # transport & map symbols
-                         u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
-                         u"\U00002702-\U000027B0"
-                         u"\U000024C2-\U0001F251" "]+", flags=re.UNICODE).sub(r'', argword)
-    argword = ' '.join(re.sub(r'(?<![\w\-])\w(?![\w\-])', '', argword).split())  # delete any single char
+    argword = re.compile("["u"\U0001F600-\U0001F64F"  # emoticons   [ 😀-🙏 🌀-🗿 🚀-🛿 🇠-🇿 ✂-➰ Ⓜ-🉑 ]+
+                            u"\U0001F300-\U0001F5FF"  # symbols & pictographs
+                            u"\U0001F680-\U0001F6FF"  # transport & map symbols
+                            u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
+                            u"\U00002702-\U000027B0"
+                            u"\U000024C2-\U0001F251" "]+", flags=re.UNICODE).sub(r'', argword)
 
-    # argword = re.sub('SPAM', '', argword)
     argword = argword.translate(str.maketrans("", "", string.punctuation))  # Punctuation removal
     argword = argword.strip()  # White spaces removal
 
@@ -76,6 +74,9 @@ def harakat(har):
 
 def WordsFiltires(tokenstem):
     """
+    This function is to remove
+    1- remove stop words
+    2- stemmer
 
     :param tokenstem:
     :return WordsFiltires:
@@ -93,7 +94,3 @@ def WordsFiltires(tokenstem):
         WordsFiltires = ' '.join(stemmed_word)
 
     return WordsFiltires
-
-
-text = "اححححب خالد &ب تت الس 90ة ب🤷🏻‍♀️​  # #نات بغت_تلنت   "
-print(harakat(remove(text)))
