@@ -1,10 +1,9 @@
-import functions as ff
 import pandas as pd
 from tweepy import Cursor
 from tweepy import api, API
 import tweepy
 
-import kays_twitter
+from projectIT499 import kays_twitter, functions as ff
 
 auth = tweepy.OAuthHandler(kays_twitter.consumer_key, kays_twitter.consumer_secret)
 auth.set_access_token(kays_twitter.access_key, kays_twitter.access_secret)
@@ -37,11 +36,10 @@ def get_data_to_frame(result_location, file_name_trend):
         print(i, end='\r')
         df.loc[i, 'Tweets'] = ff.has_spam(ff.GetFullTeet(tweet))
         i += 1
-        if i == 400:   # to avoid rate limit we set at 360 where is (280 * 360 = 100,800 character)
+        if i == 360:   # to avoid rate limit we set at 360 where is (280 * 360 = 100,800 character)
             break
         else:
             pass
 
-    spamfilter = df['Tweets'] != 'spam'  # to filter spam tweets
+    spamfilter = (df['Tweets'] != 'spam')  # to filter spam tweets
     return df[spamfilter]
-
