@@ -32,7 +32,7 @@ def get_data_to_frame(result_location, file_name_trend):
     data = datalist[0]
 
     # extract tweet from top trend
-    for tweet in Cursor(api.search, q=data, count=100, lang='ar', tweet_mode='extended').items():
+    for tweet in Cursor(api.search, q=data, wait_on_rate_limit=True, count=100, lang='ar', tweet_mode='extended').items():
         print(i, end='\r')
         df.loc[i, 'Tweets'] = ff.has_spam(ff.GetFullTeet(tweet))
         i += 1
