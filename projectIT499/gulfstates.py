@@ -7,7 +7,7 @@ from projectIT499 import kays_twitter, functions as ff
 
 auth = tweepy.OAuthHandler(kays_twitter.consumer_key, kays_twitter.consumer_secret)
 auth.set_access_token(kays_twitter.access_key, kays_twitter.access_secret)
-api: API = API(auth)
+api: API = API(auth, wait_on_rate_limit=True)
 
 
 def get_data_to_frame(result_location, file_name_trend):
@@ -21,7 +21,7 @@ def get_data_to_frame(result_location, file_name_trend):
         trend_df.loc[i, file_name_trend] = trend['name']
         trend_df.to_csv('{}.csv'.format(file_name_trend), encoding='utf-16', sep='\t', index=False)
         i += 1
-        if i == 5:
+        if i == 10:
             break
         else:
             pass
@@ -36,10 +36,19 @@ def get_data_to_frame(result_location, file_name_trend):
         print(i, end='\r')
         df.loc[i, 'Tweets'] = ff.has_spam(ff.GetFullTeet(tweet))
         i += 1
-        if i == 360:   # to avoid rate limit we set at 360 where is (280 * 360 = 100,800 character)
+        if i == 3000:   # to avoid rate limit we set at 360 where is (280 * 360 = 100,800 character)
             break
         else:
             pass
 
+    print('before dub: ', len(df.index))
+    print(df.tail())
+    df = df.drop_duplicates(subset='Tweets', keep="first")   # to drop any duplicate tweet
+    print('after remove dub: ', len(df.index))
+
+    print('before spam: ', len(df.index))
     spamfilter = (df['Tweets'] != 'spam')  # to filter spam tweets
+    print('after spam: ', len(df[spamfilter].index))
+    print(df[spamfilter])
+
     return df[spamfilter]
