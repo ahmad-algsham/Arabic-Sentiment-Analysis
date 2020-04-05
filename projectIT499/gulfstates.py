@@ -35,16 +35,19 @@ def get_data_to_frame(result_location, file_name_trend):
     for tweet in Cursor(api.search, q=data, wait_on_rate_limit=True, count=100, lang='ar', tweet_mode='extended').items():
         print(i, end='\r')
         df.loc[i, 'Tweets'] = ff.has_spam(ff.GetFullTeet(tweet))
+
+        # Code to remove duplicates based on Date column runs
+        if len(df.groupby('Tweets')) < len(df.index):
+            j = len(df.index)  # count rows before drop duplicates
+            df = df.drop_duplicates(subset='Tweets', keep="first")
+            z = len(df.index)  # count rows after drop duplicates
+            i = i - (j - z)
+
         i += 1
         if i == 3000:   # to avoid rate limit we set at 360 where is (280 * 360 = 100,800 character)
             break
         else:
             pass
-
-    print('before dub: ', len(df.index))
-    print(df.tail())
-    df = df.drop_duplicates(subset='Tweets', keep="first")   # to drop any duplicate tweet
-    print('after remove dub: ', len(df.index))
 
     print('before spam: ', len(df.index))
     spamfilter = (df['Tweets'] != 'spam')  # to filter spam tweets
